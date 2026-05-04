@@ -145,8 +145,4 @@ You don't have to mention the server name — Claude picks the tool from its des
 
 ![Claude Desktop — implicit get_token_price for BTC](images/claude-desktop-btc-implicit.png)
 
-Mentioning the server is only useful for disambiguating between multiple MCP servers, or to force Claude to make a real tool call (with live CMC data) instead of answering from training-data memory.
-
-## License
-
-ISC
+You only need to name the server when you have more than one MCP server with similar tools.
