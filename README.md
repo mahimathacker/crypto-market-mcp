@@ -85,23 +85,67 @@ echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":
 
 You should see the live BTC quote come back as JSON.
 
-## Next: Claude Desktop
+## Using it in Claude Desktop
 
-To use this server inside Claude Desktop, add an entry to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+### 1. Build
+
+```bash
+npm run build
+```
+
+### 2. Add the server to `claude_desktop_config.json`
+
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json` and merge in an `mcpServers` entry. Use **absolute paths** — Claude Desktop launches MCP servers with a minimal `PATH` (no nvm, no shell init), so `node`, `.env`, and the JS entry point all need fully-qualified paths.
 
 ```json
 {
   "mcpServers": {
     "crypto-market": {
-      "command": "npx",
-      "args": ["tsx", "--env-file=.env", "src/index.ts"],
-      "cwd": "/Users/mahimathacker/crypto-market-mcp"
+      "command": "/Users/mahimathacker/.nvm/versions/node/v24.10.0/bin/node",
+      "args": [
+        "--env-file=/Users/mahimathacker/crypto-market-mcp/.env",
+        "/Users/mahimathacker/crypto-market-mcp/dist/index.js"
+      ]
     }
   }
 }
 ```
 
-Restart Claude Desktop, then ask it something like *"Use the crypto-market server to get the current ETH price."*
+> Find your absolute `node` path with `which node`. Replace the project paths with wherever you cloned the repo.
+
+### 3. Fully quit Claude Desktop and reopen
+
+Cmd+Q (closing the window keeps the process alive — config changes won't load).
+
+### 4. Verify the connector loaded
+
+Open **Customize → Connectors**. You should see `crypto-market` under Desktop with a `LOCAL DEV` badge, and Tool permissions listing all three tools:
+
+![Claude Desktop — connector and tool permissions](images/claude-desktop-connector.png)
+
+### Trying the tools
+
+Live price (explicit invocation):
+
+> *"Use crypto-market to get the current price of SOL."*
+
+![Claude Desktop — get_token_price (SOL)](images/claude-desktop-sol-price.png)
+
+Static reference content:
+
+> *"Use crypto-market to explain the risks of bridges."*
+
+![Claude Desktop — explain_protocol_risk (bridges)](images/claude-desktop-bridge-risks.png)
+
+### Implicit tool selection
+
+You don't have to mention the server name — Claude picks the tool from its description. Plain question, automatic `get_token_price` call:
+
+> *"What's the current price of BTC?"*
+
+![Claude Desktop — implicit get_token_price for BTC](images/claude-desktop-btc-implicit.png)
+
+Mentioning the server is only useful for disambiguating between multiple MCP servers, or to force Claude to make a real tool call (with live CMC data) instead of answering from training-data memory.
 
 ## License
 
