@@ -95,7 +95,14 @@ npm run build
 
 ### 2. Add the server to `claude_desktop_config.json`
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` and merge in an `mcpServers` entry. Use **absolute paths** — Claude Desktop launches MCP servers with a minimal `PATH` (no nvm, no shell init), so `node`, `.env`, and the JS entry point all need fully-qualified paths.
+Open the config in your editor — easiest from the terminal:
+
+```bash
+# Edit in the terminal with nano (Ctrl+O to save, Ctrl+X to exit)
+nano "$HOME/Library/Application Support/Claude/claude_desktop_config.json"
+```
+
+Merge in an `mcpServers` entry. Use **absolute paths** — Claude Desktop launches MCP servers with a minimal `PATH` (no nvm, no shell init), so `node`, `.env`, and the JS entry point all need fully-qualified paths.
 
 ```json
 {
