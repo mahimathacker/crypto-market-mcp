@@ -2,6 +2,8 @@
 
 A small MCP (Model Context Protocol) server that exposes three crypto-market tools over stdio. Live prices come from the CoinMarketCap API; if no API key is set, the server falls back to illustrative sample data so it still runs.
 
+▶️ **Watch the 2-minute demo:** https://youtu.be/eSxw197VKQ8
+
 ## Tools
 
 | Name                    | Input                              | Output                                                                 |
